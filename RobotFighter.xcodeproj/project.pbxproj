@@ -137,9 +137,6 @@
 		180526B016F178AA00CB5D65 /* libChipmunkPro-iPhone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 180526AE16F178AA00CB5D65 /* libChipmunkPro-iPhone.a */; };
 		180526B516F1791400CB5D65 /* CPDebugLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 180526B216F1791400CB5D65 /* CPDebugLayer.m */; };
 		180526B616F1791400CB5D65 /* OcpObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 180526B416F1791400CB5D65 /* OcpObject.m */; };
-		180526BD16F1796000CB5D65 /* RobotTestLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 180526B816F1796000CB5D65 /* RobotTestLayer.m */; };
-		180526BE16F1796000CB5D65 /* RobotTestC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180526BA16F1796000CB5D65 /* RobotTestC.m */; };
-		180526BF16F1796000CB5D65 /* RobotTestSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 180526BC16F1796000CB5D65 /* RobotTestSingleton.m */; };
 		180526C516F1798500CB5D65 /* circleWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 180526C016F1798400CB5D65 /* circleWhite.png */; };
 		180526C616F1798500CB5D65 /* circleYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 180526C116F1798400CB5D65 /* circleYellow.png */; };
 		180526C716F1798500CB5D65 /* circleBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 180526C216F1798400CB5D65 /* circleBlue.png */; };
@@ -470,12 +467,6 @@
 		180526B216F1791400CB5D65 /* CPDebugLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDebugLayer.m; sourceTree = "<group>"; };
 		180526B316F1791400CB5D65 /* OcpObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OcpObject.h; sourceTree = "<group>"; };
 		180526B416F1791400CB5D65 /* OcpObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OcpObject.m; sourceTree = "<group>"; };
-		180526B716F1796000CB5D65 /* RobotTestLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RobotTestLayer.h; sourceTree = "<group>"; };
-		180526B816F1796000CB5D65 /* RobotTestLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RobotTestLayer.m; sourceTree = "<group>"; };
-		180526B916F1796000CB5D65 /* RobotTestC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RobotTestC.h; sourceTree = "<group>"; };
-		180526BA16F1796000CB5D65 /* RobotTestC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RobotTestC.m; sourceTree = "<group>"; };
-		180526BB16F1796000CB5D65 /* RobotTestSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RobotTestSingleton.h; sourceTree = "<group>"; };
-		180526BC16F1796000CB5D65 /* RobotTestSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RobotTestSingleton.m; sourceTree = "<group>"; };
 		180526C016F1798400CB5D65 /* circleWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circleWhite.png; sourceTree = "<group>"; };
 		180526C116F1798400CB5D65 /* circleYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circleYellow.png; sourceTree = "<group>"; };
 		180526C216F1798400CB5D65 /* circleBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circleBlue.png; sourceTree = "<group>"; };
@@ -565,12 +556,6 @@
 				1805267F16F176B200CB5D65 /* RobotFighterLayer.m */,
 				18C4E4AC16F182D8004859AB /* RobotFighter.h */,
 				18C4E4AD16F182D8004859AB /* RobotFighter.m */,
-				180526B716F1796000CB5D65 /* RobotTestLayer.h */,
-				180526B816F1796000CB5D65 /* RobotTestLayer.m */,
-				180526B916F1796000CB5D65 /* RobotTestC.h */,
-				180526BA16F1796000CB5D65 /* RobotTestC.m */,
-				180526BB16F1796000CB5D65 /* RobotTestSingleton.h */,
-				180526BC16F1796000CB5D65 /* RobotTestSingleton.m */,
 				180526B116F1791400CB5D65 /* CPDebugLayer.h */,
 				180526B216F1791400CB5D65 /* CPDebugLayer.m */,
 				180526B316F1791400CB5D65 /* OcpObject.h */,
@@ -1224,9 +1209,6 @@
 				1805268016F176B200CB5D65 /* RobotFighterLayer.m in Sources */,
 				180526B516F1791400CB5D65 /* CPDebugLayer.m in Sources */,
 				180526B616F1791400CB5D65 /* OcpObject.m in Sources */,
-				180526BD16F1796000CB5D65 /* RobotTestLayer.m in Sources */,
-				180526BE16F1796000CB5D65 /* RobotTestC.m in Sources */,
-				180526BF16F1796000CB5D65 /* RobotTestSingleton.m in Sources */,
 				18C4E4AE16F182D8004859AB /* RobotFighter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
