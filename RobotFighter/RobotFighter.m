@@ -72,6 +72,10 @@
   CGPoint targetPoint = _targetPoint;
   float maxSpeed = _speed;
   float steeringForceEffect = 0.1;
+  if (self.attackUnit != nil) {
+    steeringForceEffect *= 0.2;
+    maxSpeed *= 0.2;
+  }
   
   float slowingDistance = 30;
   float mainToTargetDis = ccpDistance(mainPos, targetPoint);
@@ -170,7 +174,7 @@
   _attackTime = attackTime;
   
   if (_sprite != nil) {
-    _hpLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:16*_sprite.scale];
+    _hpLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:MAX(MIN(22,16*_sprite.scale),12)];
     [_parentLayer addChild:_hpLabel];
     _hpLabel.scale = _sprite.scale;
     [self updateHpLabel];
@@ -202,15 +206,14 @@
 #pragma mark - ROBOT_FIGHTER
 
 @implementation RobotFighter
-@synthesize robotFighterUnitArray=_robotFighterUnitArray;
+@synthesize robotFighterUnitArray=_robotFighterUnitArray, touchedUnit=_touchedUnit;
 
 #pragma mark - RobotFighterDelegate
 
 -(void)robotFighterUnitDelegateHpZeroWithUnit:(RobotFighterUnit *)unit {
-  
   for (RobotFighterUnit *uni in _robotFighterUnitArray) {
     if (uni.attackUnit == unit) {
-      unit.attackUnit = nil;
+      uni.attackUnit = nil;
     }
   }
   
@@ -233,8 +236,17 @@
 #pragma  mark - Collision
 
 -(void)collisionWithUnit1:(RobotFighterUnit*)unit1 unit2:(RobotFighterUnit*)unit2 {
-  if (unit1.hp > 0 && unit1.attackUnit == nil) unit1.attackUnit = unit2;
-  if (unit2.hp > 0 && unit2.attackUnit == nil) unit2.attackUnit = unit1;
+  if (unit1.hp > 0 && unit1.attackUnit == nil) {
+    unit1.attackUnit = unit2;
+  }
+  if (unit2.hp > 0 && unit2.attackUnit == nil) {
+    unit2.attackUnit = unit1;
+  }
+}
+
+-(void)separationWithUnit1:(RobotFighterUnit *)unit1 unit2:(RobotFighterUnit *)unit2 {
+  if (unit1.attackUnit == unit2) unit1.attackUnit = nil;
+  if (unit2.attackUnit == unit1) unit2.attackUnit = nil;
 }
 
 #pragma mark - TouchEvent
@@ -256,7 +268,6 @@
 }
 
 -(void)updateLocation:(CGPoint)point {
-  
 }
 
 -(void)endLocation:(CGPoint)point {

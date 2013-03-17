@@ -63,10 +63,8 @@
 #pragma mark - ROBOT_FIGHTER
 
 @interface RobotFighter : NSObject <RobotFighterUnitDelegate>
-{
-  RobotFighterUnit *_touchedUnit;
-}
 @property (nonatomic,retain) NSMutableArray *robotFighterUnitArray;
+@property (nonatomic,assign) RobotFighterUnit *touchedUnit;
 -(void)update;
 -(void)addUnit:(RobotFighterUnit*)unit;
 
@@ -77,6 +75,7 @@
 
 //CollisionEvent
 -(void)collisionWithUnit1:(RobotFighterUnit*)unit1 unit2:(RobotFighterUnit*)unit2;
+-(void)separationWithUnit1:(RobotFighterUnit*)unit1 unit2:(RobotFighterUnit*)unit2;
 
 //Info
 -(RobotFighterUnit*)returnUnitWithChipmunkBody:(ChipmunkBody*)body;
