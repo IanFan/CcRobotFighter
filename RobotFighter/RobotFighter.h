@@ -85,4 +85,8 @@
 
 //Info
 -(RobotFighterUnit*)returnUnitWithChipmunkBody:(ChipmunkBody*)body;
+
+//Draw
+-(void)draw;
+
 @end

@@ -126,13 +126,10 @@
 }
 
 -(void)updateAttackTime {
-  if (_attackUnit != nil) {
-    _attackTimeStack ++;
-    
-    if (_attackTimeStack >= _attackTime) {
-      [_attackUnit changeHpWithEditAmount:-_attack];
-      _attackTimeStack = 0;
-    }
+  if (_attackTimeStack < _attackTime) _attackTimeStack ++;
+  else if (_attackUnit != nil) {
+    [_attackUnit changeHpWithEditAmount:-_attack];
+    _attackTimeStack = 0;
   }
 }
 
@@ -245,6 +242,14 @@
   }
   
   return targetUnit;
+}
+
+-(void)draw {
+  if ( (_touchedUnit != nil && _touchedUnit.hp > 0) && (_touchingPoint.x != 0 && _touchingPoint.y != 0) ) {
+  glLineWidth(4.0f);
+  ccDrawColor4F(0,255,255,255);
+  ccDrawLine(_touchedUnit.sprite.position, _touchingPoint);
+  }
 }
 
 #pragma  mark - Collision

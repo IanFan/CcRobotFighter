@@ -35,13 +35,7 @@
 
 #pragma mark - Draw
 - (void)draw {
-  if ( (_robotFighter.touchedUnit != nil && _robotFighter.touchedUnit.hp > 0) && (_robotFighter.touchingPoint.x != 0 && _robotFighter.touchingPoint.y != 0) ) {
-    CGPoint point1 = _robotFighter.touchedUnit.sprite.position;
-    CGPoint point2 = _robotFighter.touchingPoint;
-    
-    ccDrawColor4F(0,255,0,255);
-    ccDrawLine(point1, point2);
-  }
+  [_robotFighter draw];
   
   [super draw];
 }
