@@ -19,7 +19,8 @@
 
 -(void)changeHpWithEditAmount:(int)editAmount {
   _hp = MAX(_hp + editAmount, 0) ;
-  [self updateHpLabel];
+  
+  [self updateMassAndHpLabel];
   
   if (_hp <= 0) {
     //can not do anything
@@ -43,7 +44,7 @@
   }
   
   [self updateSprite];
-  [self updateHpLabel];
+  [self updateHpLabelPosition];
 }
 
 -(void)updateSprite {
@@ -53,10 +54,19 @@
   }
 }
 
--(void)updateHpLabel {
+-(void)updateMassAndHpLabel {
+  if (_chipmunkBody != nil) {
+    _chipmunkBody.mass = MAX((float)0.01*_fullMass*_hp, (float)0.01*_fullMass);
+  }
+  
+  if (_hpLabel != nil) {
+    _hpLabel.string = [NSString stringWithFormat:@"%d",_hp];
+  }
+}
+
+-(void)updateHpLabelPosition {
   if (_hpLabel != nil && _sprite != nil) {
     _hpLabel.position = _sprite.position;
-    _hpLabel.string = [NSString stringWithFormat:@"%d",_hp];
   }
 }
 
@@ -118,14 +128,15 @@
 -(void)updateAttackTime {
   if (_attackUnit != nil) {
     _attackTimeStack ++;
-    if (_attackTimeStack == _attackTime) {
+    
+    if (_attackTimeStack >= _attackTime) {
       [_attackUnit changeHpWithEditAmount:-_attack];
       _attackTimeStack = 0;
     }
   }
 }
 
-#pragma mark - SetupSprte
+#pragma mark - SetupSprite
 
 -(void)setupSpriteWithParentLayer:(CCLayer *)parentL pngName:(NSString *)pngName {
   _parentLayer = parentL;
@@ -138,6 +149,7 @@
 
 -(void)setupChipmunkObjectsWithParentSpace:(ChipmunkSpace *)parentSp IsCircleNotSquare:(BOOL)isCircleNotSquare mass:(float)mas width:(float)width height:(float)height position:(CGPoint)pos elasticity:(float)elas friction:(float)fric collisionType:(NSString *)colliType {
   _parentSpace = parentSp;
+  _fullMass = mas;
   
   if (isCircleNotSquare == YES) {
     cpFloat moment = cpMomentForCircle(mas, 0, height, cpv(0.0f, 0.0f));
@@ -172,12 +184,14 @@
   _speed = speed;
   _attack = attack;
   _attackTime = attackTime;
+  _attackTimeStack = attackTime;
   
   if (_sprite != nil) {
     _hpLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:MAX(MIN(22,16*_sprite.scale),12)];
     [_parentLayer addChild:_hpLabel];
     _hpLabel.scale = _sprite.scale;
-    [self updateHpLabel];
+    [self updateMassAndHpLabel];
+    [self updateHpLabelPosition];
   }
 }
 
@@ -206,7 +220,7 @@
 #pragma mark - ROBOT_FIGHTER
 
 @implementation RobotFighter
-@synthesize robotFighterUnitArray=_robotFighterUnitArray, touchedUnit=_touchedUnit;
+@synthesize robotFighterUnitArray=_robotFighterUnitArray, touchedUnit=_touchedUnit, touchingPoint=_touchingPoint;
 
 #pragma mark - RobotFighterDelegate
 
@@ -235,21 +249,76 @@
 
 #pragma  mark - Collision
 
+-(BOOL)beginCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space {
+  CHIPMUNK_ARBITER_GET_SHAPES(arbiter, shape1, shape2);
+  
+  RobotFighterUnit *unit1 = shape1.data;
+  RobotFighterUnit *unit2 = shape2.data;
+  
+  [self collisionWithUnit1:unit1 unit2:unit2];
+  
+  return TRUE;
+}
+
+-(void)separateCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space {
+  CHIPMUNK_ARBITER_GET_SHAPES(arbiter, shape1, shape2);
+  
+  RobotFighterUnit *unit1 = shape1.data;
+  RobotFighterUnit *unit2 = shape2.data;
+  
+  [self separationWithUnit1:unit1 unit2:unit2];
+}
+
 -(void)collisionWithUnit1:(RobotFighterUnit*)unit1 unit2:(RobotFighterUnit*)unit2 {
-  if (unit1.hp > 0 && unit1.attackUnit == nil) {
-    unit1.attackUnit = unit2;
+  if (unit1.hp > 0) {
+    if (unit1.attackUnit == nil && unit2.hp > 0) unit1.attackUnit = unit2;
+  }else {
+    unit1.attackUnit = nil;
   }
-  if (unit2.hp > 0 && unit2.attackUnit == nil) {
-    unit2.attackUnit = unit1;
+  
+  if (unit2.hp > 0) {
+    if (unit2.attackUnit == nil && unit1.hp > 0) unit2.attackUnit = unit1;
+  }else {
+    unit2.attackUnit = nil;
   }
+  
+  unit1.touchedShapes ++;
+  unit2.touchedShapes ++;
 }
 
 -(void)separationWithUnit1:(RobotFighterUnit *)unit1 unit2:(RobotFighterUnit *)unit2 {
   if (unit1.attackUnit == unit2) unit1.attackUnit = nil;
   if (unit2.attackUnit == unit1) unit2.attackUnit = nil;
+  
+  unit1.touchedShapes --;
+  unit2.touchedShapes --;
 }
 
 #pragma mark - TouchEvent
+
+-(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  for(UITouch *touch in touches){
+    CGPoint point = [touch locationInView:[touch view]];
+    point = [[CCDirector sharedDirector]convertToGL:point];
+    [self beginLocation:point];
+  }
+}
+
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  for(UITouch *touch in touches){
+    CGPoint point = [touch locationInView:[touch view]];
+    point = [[CCDirector sharedDirector]convertToGL:point];
+    [self updateLocation:point];
+  }
+}
+
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  for(UITouch *touch in touches){
+    CGPoint point = [touch locationInView:[touch view]];
+    point = [[CCDirector sharedDirector]convertToGL:point];
+    [self endLocation:point];
+  }
+}
 
 -(void)beginLocation:(CGPoint)point {
   for (RobotFighterUnit *unit in _robotFighterUnitArray) {
@@ -268,9 +337,12 @@
 }
 
 -(void)updateLocation:(CGPoint)point {
+  _touchingPoint = point;
 }
 
 -(void)endLocation:(CGPoint)point {
+  _touchingPoint = CGPointZero;
+  
   if (_touchedUnit != nil) {
     _touchedUnit.targetPoint = point;
     NSLog(@"point = %f,%f",point.x,point.y);

@@ -17,8 +17,6 @@
   ChipmunkMultiGrab *_multiGrab;
   
   RobotFighter *_robotFighter;
-  
-  CGPoint _touchingPoint;
 }
 +(CCScene *) scene;
 

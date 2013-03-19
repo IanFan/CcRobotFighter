@@ -21,6 +21,8 @@
   
   CCLabelTTF *_hpLabel;
   int _attackTimeStack;
+  
+  float _fullMass;
 }
 
 //general
@@ -65,15 +67,19 @@
 @interface RobotFighter : NSObject <RobotFighterUnitDelegate>
 @property (nonatomic,retain) NSMutableArray *robotFighterUnitArray;
 @property (nonatomic,assign) RobotFighterUnit *touchedUnit;
+@property CGPoint touchingPoint;
+
 -(void)update;
 -(void)addUnit:(RobotFighterUnit*)unit;
 
 //TouchEvent
--(void)beginLocation:(CGPoint)point;
--(void)updateLocation:(CGPoint)point;
--(void)endLocation:(CGPoint)point;
+-(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 
 //CollisionEvent
+-(BOOL)beginCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space;
+-(void)separateCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space;
 -(void)collisionWithUnit1:(RobotFighterUnit*)unit1 unit2:(RobotFighterUnit*)unit2;
 -(void)separationWithUnit1:(RobotFighterUnit*)unit1 unit2:(RobotFighterUnit*)unit2;
 

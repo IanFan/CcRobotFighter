@@ -23,86 +23,56 @@
 
 #pragma mark - Collision
 
--(BOOL)beginCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space{
-  // This macro gets the colliding shapes from the arbiter and defines variables for them.
-  CHIPMUNK_ARBITER_GET_SHAPES(arbiter, shape1, shape2);
-//  CHIPMUNK_ARBITER_GET_BODIES(arbiter, body1, body2);
-  
-  RobotFighterUnit *unit1 = shape1.data;
-//  RobotFighterUnit *unit1 = [_robotFighter returnUnitWithChipmunkBody:body1];
-  RobotFighterUnit *unit2 = shape2.data;
-//  RobotFighterUnit *unit2 = [_robotFighter returnUnitWithChipmunkBody:body2];
-  
-  if (unit1.hp > 0 && unit2.hp > 0) {
-    [_robotFighter collisionWithUnit1:unit1 unit2:unit2];
-  }
-  
-  unit1.touchedShapes ++;
-  unit2.touchedShapes ++;
+-(BOOL)beginCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space {
+  [_robotFighter beginCollision:arbiter space:space];
   
   return TRUE;
 }
 
--(void)separateCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space{
-  CHIPMUNK_ARBITER_GET_SHAPES(arbiter, shape1, shape2);
-//  CHIPMUNK_ARBITER_GET_BODIES(arbiter, body1, body2);
-  
-  RobotFighterUnit *unit1 = shape1.data;
-  RobotFighterUnit *unit2 = shape2.data;
-  
-  [_robotFighter separationWithUnit1:unit1 unit2:unit2];
-  
-  unit1.touchedShapes --;
-  unit2.touchedShapes --;
+-(void)separateCollision:(cpArbiter *)arbiter space:(ChipmunkSpace *)space {
+  [_robotFighter separateCollision:arbiter space:space];
 }
 
 #pragma mark - Draw
 - (void)draw {
-  if ((_robotFighter.touchedUnit != nil && _robotFighter.touchedUnit.hp >0 ) && (_touchingPoint.x != 0 && _touchingPoint.y != 0)) {
+  if ( (_robotFighter.touchedUnit != nil && _robotFighter.touchedUnit.hp > 0) && (_robotFighter.touchingPoint.x != 0 && _robotFighter.touchingPoint.y != 0) ) {
     CGPoint point1 = _robotFighter.touchedUnit.sprite.position;
-    CGPoint point2 = _touchingPoint;
+    CGPoint point2 = _robotFighter.touchingPoint;
     
     ccDrawColor4F(0,255,0,255);
     ccDrawLine(point1, point2);
   }
   
-  [super draw]; // Depending on the superclass
+  [super draw];
 }
 
 
 #pragma mark - Touch Event
 
--(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
-{
+-(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [_robotFighter ccTouchesBegan:touches withEvent:event];
+  
   for(UITouch *touch in touches){
     CGPoint point = [touch locationInView:[touch view]];
     point = [[CCDirector sharedDirector]convertToGL:point];
-    //    [_multiGrab beginLocation:point];
-    [_robotFighter beginLocation:point];
   }
 }
 
--(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
-{
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  [_robotFighter ccTouchesMoved:touches withEvent:event];
+  
   for(UITouch *touch in touches){
     CGPoint point = [touch locationInView:[touch view]];
     point = [[CCDirector sharedDirector]convertToGL:point];
-    //    [_multiGrab updateLocation:point];
-    [_robotFighter updateLocation:point];
-    
-    _touchingPoint = point;
   }
 }
 
--(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
-{
+-(void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [_robotFighter ccTouchesEnded:touches withEvent:event];
+  
 	for(UITouch *touch in touches){
     CGPoint point = [touch locationInView:[touch view]];
     point = [[CCDirector sharedDirector]convertToGL:point];
-    //    [_multiGrab endLocation:point];
-    [_robotFighter endLocation:point];
-    
-    _touchingPoint = CGPointZero;
   }
 }
 
@@ -130,7 +100,7 @@
   unit.robotFighterUnitDelegate = _robotFighter;
   [unit setupSpriteWithParentLayer:self pngName:@"circleYellow.png"];
   [unit setupChipmunkObjectsWithParentSpace:_space IsCircleNotSquare:YES mass:1.0 width:50 height:50 position:ccp(winSize.width/4, winSize.height/4) elasticity:0.5 friction:0.5 collisionType:@"group1Type"];
-  [unit setupFighterWithHp:100 speed:1 sight:100 attack:1 attackTime:3];
+  [unit setupFighterWithHp:100 speed:1 sight:100 attack:10 attackTime:30];
   [_robotFighter addUnit:unit];
   }
   
@@ -139,7 +109,7 @@
   unit.robotFighterUnitDelegate = _robotFighter;
   [unit setupSpriteWithParentLayer:self pngName:@"circleYellow.png"];
   [unit setupChipmunkObjectsWithParentSpace:_space IsCircleNotSquare:YES mass:1.0 width:50 height:50 position:ccp(winSize.width/4, winSize.height*3/4) elasticity:0.5 friction:0.5 collisionType:@"group1Type"];
-  [unit setupFighterWithHp:100 speed:1 sight:100 attack:1 attackTime:3];
+  [unit setupFighterWithHp:100 speed:1 sight:100 attack:10 attackTime:30];
   [_robotFighter addUnit:unit];
   }
   
@@ -148,7 +118,7 @@
   unit.robotFighterUnitDelegate = _robotFighter;
   [unit setupSpriteWithParentLayer:self pngName:@"circleRed.png"];
   [unit setupChipmunkObjectsWithParentSpace:_space IsCircleNotSquare:YES mass:1.0 width:50 height:50 position:ccp(winSize.width*3/4, winSize.height/4) elasticity:0.5 friction:0.5 collisionType:@"group2Type"];
-  [unit setupFighterWithHp:100 speed:1 sight:100 attack:1 attackTime:3];
+  [unit setupFighterWithHp:100 speed:1 sight:100 attack:10 attackTime:30];
   unit.chipmunkBody.angle = CC_DEGREES_TO_RADIANS(-180);
   [_robotFighter addUnit:unit];
   }
@@ -158,7 +128,7 @@
   unit.robotFighterUnitDelegate = _robotFighter;
   [unit setupSpriteWithParentLayer:self pngName:@"circleRed.png"];
   [unit setupChipmunkObjectsWithParentSpace:_space IsCircleNotSquare:YES mass:1.0 width:50 height:50 position:ccp(winSize.width*3/4, winSize.height*3/4) elasticity:0.5 friction:0.5 collisionType:@"group2Type"];
-  [unit setupFighterWithHp:100 speed:1 sight:100 attack:1 attackTime:3];
+  [unit setupFighterWithHp:100 speed:1 sight:100 attack:10 attackTime:30];
   unit.chipmunkBody.angle = CC_DEGREES_TO_RADIANS(-180);
   [_robotFighter addUnit:unit];
   }
