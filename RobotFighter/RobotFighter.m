@@ -81,7 +81,7 @@
   CGPoint mainPos = _chipmunkBody.pos;
   CGPoint targetPoint = _targetPoint;
   float maxSpeed = _speed;
-  float steeringForceEffect = 0.1;
+  float steeringForceEffect = 0.2;
   if (self.attackUnit != nil) {
     steeringForceEffect *= 0.2;
     maxSpeed *= 0.2;
@@ -247,7 +247,7 @@
 -(void)draw {
   if ( (_touchedUnit != nil && _touchedUnit.hp > 0) && (_touchingPoint.x != 0 && _touchingPoint.y != 0) ) {
   glLineWidth(4.0f);
-  ccDrawColor4F(0,255,255,255);
+  ccDrawColor4F(.42, 0.56, 0.14, 1.0);
   ccDrawLine(_touchedUnit.sprite.position, _touchingPoint);
   }
 }

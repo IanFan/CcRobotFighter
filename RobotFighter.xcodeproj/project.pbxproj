@@ -554,22 +554,7 @@
 				18C4E4AC16F182D8004859AB /* RobotFighter.h */,
 				18C4E4AD16F182D8004859AB /* RobotFighter.m */,
 				18C365BF16F815AC00FCE3F6 /* Helper */,
-				180526C016F1798400CB5D65 /* circleWhite.png */,
-				180526C116F1798400CB5D65 /* circleYellow.png */,
-				180526C216F1798400CB5D65 /* circleBlue.png */,
-				180526C316F1798400CB5D65 /* circleRed.png */,
-				180526C416F1798500CB5D65 /* circleGreen.png */,
-				180526CC16F1799C00CB5D65 /* targetWhite.png */,
-				180526CA16F1799200CB5D65 /* targetRed.png */,
-				180526CE16F179B200CB5D65 /* circleYellow@2x.png */,
-				180526CF16F179B200CB5D65 /* circleRed@2x.png */,
-				180526D016F179B200CB5D65 /* circleWhite@2x.png */,
-				180526D116F179B200CB5D65 /* circleBlue@2x.png */,
-				180526D216F179B200CB5D65 /* circleGreen@2x.png */,
-				180526D316F179B200CB5D65 /* targetRed@2x.png */,
-				180526D416F179B200CB5D65 /* targetWhite@2x.png */,
-				180526DC16F179C500CB5D65 /* circle.png */,
-				180526DD16F179C500CB5D65 /* circle@2x.png */,
+				1875EC6216F87444008B88BA /* Img */,
 				180524F616F172CC00CB5D65 /* Resources */,
 				1805251016F172CC00CB5D65 /* libs */,
 				1805266916F172CE00CB5D65 /* Supporting Files */,
@@ -1005,6 +990,29 @@
 				1805269616F178AA00CB5D65 /* util.h */,
 			);
 			path = constraints;
+			sourceTree = "<group>";
+		};
+		1875EC6216F87444008B88BA /* Img */ = {
+			isa = PBXGroup;
+			children = (
+				180526C016F1798400CB5D65 /* circleWhite.png */,
+				180526C116F1798400CB5D65 /* circleYellow.png */,
+				180526C216F1798400CB5D65 /* circleBlue.png */,
+				180526C316F1798400CB5D65 /* circleRed.png */,
+				180526C416F1798500CB5D65 /* circleGreen.png */,
+				180526CC16F1799C00CB5D65 /* targetWhite.png */,
+				180526CA16F1799200CB5D65 /* targetRed.png */,
+				180526CE16F179B200CB5D65 /* circleYellow@2x.png */,
+				180526CF16F179B200CB5D65 /* circleRed@2x.png */,
+				180526D016F179B200CB5D65 /* circleWhite@2x.png */,
+				180526D116F179B200CB5D65 /* circleBlue@2x.png */,
+				180526D216F179B200CB5D65 /* circleGreen@2x.png */,
+				180526D316F179B200CB5D65 /* targetRed@2x.png */,
+				180526D416F179B200CB5D65 /* targetWhite@2x.png */,
+				180526DC16F179C500CB5D65 /* circle.png */,
+				180526DD16F179C500CB5D65 /* circle@2x.png */,
+			);
+			name = Img;
 			sourceTree = "<group>";
 		};
 		18C365BF16F815AC00FCE3F6 /* Helper */ = {
