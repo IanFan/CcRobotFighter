@@ -128,6 +128,25 @@
   }
 }
 
+#pragma mark - SetupControlMenu
+
+-(void)setupControlMenu {
+  CGSize winSize = [CCDirector sharedDirector].winSize;
+  
+  //Restart
+  {
+  CCLabelTTF *label = [CCLabelTTF labelWithString:@"Restart" fontName:@"Helvetica" fontSize:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)? 32:20];
+  CCMenuItem *item = [CCMenuItemLabel itemWithLabel:label block:^(id sender){
+    [[CCDirector sharedDirector] replaceScene:[RobotFighterLayer scene]];
+  }];
+  item.position = ccp(winSize.width/2, winSize.height/6);
+  CCMenu *menu = [CCMenu menuWithItems:item, nil];
+  menu.position = ccp(0, 0);
+  [self addChild:menu];
+  }
+  
+}
+
 #pragma mark - SeupChipmunk
 
 -(void)setupChipmunkSpace {
@@ -164,6 +183,8 @@
 //    [self setupDebugLayer];
     
     [self setupRobotFighter];
+    
+    [self setupControlMenu];
     
     [self schedule:@selector(update:)];
     

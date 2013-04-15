@@ -326,8 +326,8 @@
 }
 
 -(void)beginLocation:(CGPoint)point {
+  float oldDisSQ = 0;
   for (RobotFighterUnit *unit in _robotFighterUnitArray) {
-    float oldDisSQ;
     float newDisSQ = ccpDistanceSQ(unit.sprite.position, point);
     float detectDis = 0.5*unit.sprite.boundingBox.size.width;
     if (newDisSQ <= detectDis*detectDis) {
